@@ -1,0 +1,124 @@
+<%# <%= render "shared/header" %>
+
+<div class="tweet-show">
+  <div class='tweet-boxes'>
+    <%# 投稿ゾーン %>
+    <div class="tweet-box">
+      <%# 投稿の画像ゾーン %>
+      <div class="tweet-sub-box">
+        <div class="tweet-top-icon">
+          <h2 class="title-weg">
+            <%= link_to "Weg", root_path, class:'title-icon' %>
+          </h2>
+          <h2 class="name-title">
+            <%= link_to @tweet.user.nickname, root_path, class:'name' %>
+          <h2>
+        </div>
+        <div class='tweet-img-content'>
+          <%= image_tag @tweet.image ,class:"tweet-box-img" %>
+          <div class='good-tweet'>
+            <div class='good-btn'>
+              <div class='good-total'>
+                <div id="likes_buttons<%= @tweet.id %>">
+                  <%= render partial: 'likes/like', locals: { tweet: @tweet, like: @like } %>
+                </div>
+              </div>
+            </div>
+            <div class='setting-btn'>
+              <h1 class='set-detail' id="set-lists">
+                -- Setting Menu --
+              </h1>
+              <% if user_signed_in? && current_user.id == @tweet.user_id %>
+                <% if @tweet.present? %>
+                  <ul class="set-select" hidden id="set-down">
+                    <li><%= link_to 'My page', root_path, class:"set-down-list" %></li>
+                    <li><%= link_to 'Edit', edit_tweet_path(@tweet.id), method: :get, class:"set-down-list" %></li>
+                    <li><%= link_to 'Delete', tweet_path(@tweet.id), method: :delete, class:"set-down-list" %></li>
+                  </ul>
+                <% end %>
+              <% else %>
+                <% if @tweet.present? %>
+                  <ul class="set-select-second" hidden id="set-down">
+                    <li class="set-down-list">User page</li>
+                  </ul>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%#/投稿の画像ゾーン%>
+
+      <%# 投稿の詳細ゾーン %>
+      <div class='tweet-details'>
+        <div class='three-details'>
+          <div class='title-detail'>
+            <div class='tweet-title'>
+              Title
+            </div>
+            <div class='title-sentence'>
+              <%= @tweet.title %>
+            </div>
+          </div>
+          <div class='information-detail'>
+            <h2 class='car-information'>
+              Brand ・ Type ・ Model Year
+            </h2>
+            <h2 class='information-sentence'>
+              <%= @tweet.brand[:name] %>・<%= @tweet.type[:name] %>・<%= @tweet.model_year[:name] %>
+            </h2>
+          </div>
+          <div class='caption-detail'>
+            <div class='tweet-caption'>
+              Caption
+            </div>
+            <div class='caption-sentence'>
+              <%= @tweet.caption %>
+            </div>
+          </div>
+          <div class='tweet-date'>
+            <%= l @tweet.created_at %>
+          </div>
+        </div>
+      </div>
+      <%#/投稿の詳細ゾーン %>
+    </div>
+    <%#/投稿ゾーン%>
+    <%#コメントゾーン%>
+    <div class='comment-box'>
+      <div class='comment-sub-box'>
+        <%= form_with(model: [@tweet, @comment], local: true) do |form| %>
+          <%= form.text_area :text, class:"comment-area", placeholder: "To comment", rows: "2" , wrap: "soft"%>
+          <%= form.submit "SEND" , class:"comment-btn"%>
+        <% end %>
+      </div>
+      <div class='comment-index'>
+        <h4 class='comment-name'>
+          -- Comments --
+        </h4>
+        <div class='comment-scroller'>
+          <% if @comments %>
+            <% @comments.each do |comment| %>
+              <div class='comment-details'>
+                <div class='comment-contents'>
+                  <div class='name-top'>
+                    <%= link_to comment.user.nickname, "#" , class:'name-index' %>
+                  </div>
+                  <div class='comment-date'>
+                    ~ <%= l comment.created_at%> ~
+                  </div>
+                </div>
+                <div class='comment-text'>
+                    <%= comment.text %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <%#/コメントゾーン%>
+  </div>
+</div>
+
+<%= render "shared/footer" %>

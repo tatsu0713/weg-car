@@ -1,0 +1,68 @@
+<div class="tweets-sell-contents">
+  <header class="items-sell-header">
+    <%= link_to "Weg", root_path, class:"third-logo" %>
+  </header>
+  <%= form_with model: @tweet, local: true do |f| %>
+  <div class="items-sell-main">
+    <h2 class="items-sell-title">Edit Form</h2>
+
+    <%= render 'shared/error_messages', model: @tweet %>
+
+    <div class="img-upload">
+      <div class="weight-bold-text">
+        -- Images --
+        <span class="indispensable">※</span>
+      </div>
+      <div class="click-upload">
+        <%= f.file_field :image, id:"item-image" %>
+      </div>
+    </div>
+    <div class="items-detail">
+      <div class="weight-bold-text">
+        -- Auto Details --
+        <span class="indispensable">※</span>
+      </div>
+      <div class="form">
+        <div class="bold-text">
+          Brand
+        </div>
+        <%= f.collection_select(:brand_id, Brand.all, :id, :name, {}, {class:"select-box", id:"item-category"}) %>
+        <div class="bold-text">
+          Type
+        </div>
+        <%= f.collection_select(:type_id, Type.all, :id, :name, {}, {class:"select-box", id:"item-sales-status"}) %>
+        <div class="bold-text">
+          Model Year
+        </div>
+        <%= f.collection_select(:model_year_id, ModelYear.all, :id, :name, {}, {class:"select-box", id:"item-sales-status"}) %>
+      </div>
+    </div>
+    <div class="new-items">
+      <div class="weight-bold-text">
+        -- Title --
+        <span class="indispensable">※</span>
+      </div>
+      <%= f.text_area :title, class:"items-text", id:"item-name", placeholder:"", maxlength:"40" %>
+      <div class="items-explain">
+        <div class="weight-bold-text">
+          -- Caption --
+          <span class="indispensable">※</span>
+        </div>
+        <%= f.text_area :caption, class:"items-text", id:"item-info", placeholder:"" ,rows:"7" ,maxlength:"1000" %>
+      </div>
+    </div>
+    <div class="sell-btn-contents">
+      <%= f.submit "Edit" ,class:"sell-btn" %>
+      <%=link_to 'Top', root_path, class:"top-btn" %>
+    </div>
+  </div>
+  <% end %>
+  <div class="items-sell-footer">
+    <%# <ul class="menu">
+      <li><a href="#">プライバシーポリシー</a></li>
+      <li><a href="#">weg利用規約</a></li>
+      <li><a href="#">特定商取引に関する表記</a></li>
+    </ul> %>
+    <%= link_to "Weg", root_path, class:"third-fotter-logo"%>
+  </div>
+</div>
